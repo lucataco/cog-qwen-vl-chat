@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+# Run this before you deploy it on replicate
+import os
+import sys
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# append project directory to path so predict.py can be imported
+sys.path.append('.')
+from predict import MODEL_NAME, MODEL_CACHE, TOKEN_CACHE
+
+# Make cache folders
+if not os.path.exists(MODEL_CACHE):
+    os.makedirs(MODEL_CACHE)
+
+tokenizer = AutoTokenizer.from_pretrained(
+    MODEL_NAME,
+    trust_remote_code=True,
+    cache_dir=TOKEN_CACHE
+)
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    trust_remote_code=True,
+    cache_dir=MODEL_CACHE
+)
